@@ -7,19 +7,35 @@ import './App.css';
 
 const loginURL = 'http://localhost:8000/login/'
 const profileURL = 'http://localhost:8000/profile/'
+const trailsURL = 'http://localhost:8000/trails/'
+const usersURL = 'http://localhost:8000/users/'
 
 class App extends Component {
   
   state = {
-    user: {}
+    user: {},
+    allTrails: [],
+    allUsers: []
   }
 
-  componentDidMount(){
-    if(localStorage.token){
-      this.profileFetch()
-    }
+  fetchModels = () => {
+    this.profileFetch()
+    this.trailsFetch()
   }
 
+  trailsFetch = () => {
+    fetch(trailsURL, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    })
+    .then(response => response.json())
+    .then(result => {
+      this.setState({allTrails: result})
+    })
+  }
+  
   profileFetch = () => {
     fetch(profileURL, {
       method: 'GET', 
@@ -29,6 +45,18 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(result => this.setState({user: result}))
+  }
+
+  componentDidMount(){
+    if(localStorage.token){
+      this.fetchModels()
+    }
+  }
+
+  componentDidUpdate(){
+    if(localStorage.token && this.state.allTrails.length === 0) {
+      this.fetchModels()
+    }
   }
 
   login = (user) => {
@@ -57,6 +85,9 @@ class App extends Component {
           <PrivateRoute
             exact path='/'
             user={this.state.user}
+            allUsers={this.state.allUsers}
+            allTrails={this.state.allTrails}
+            profileFetch={this.profileFetch}
           />
 
           <Route
@@ -65,8 +96,6 @@ class App extends Component {
           <Route render={() => <Redirect to='/' />} />
 
         </Switch>
-
-
 
         <SignUp />
       </div>

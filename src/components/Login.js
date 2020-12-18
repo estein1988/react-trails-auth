@@ -4,8 +4,7 @@ export default class Login extends Component {
 
     state = {
         usernmae: '',
-        password: '',
-        errorMessage: ''
+        password: ''
     }
 
     handleSubmit = (event) => {
@@ -36,9 +35,7 @@ export default class Login extends Component {
                     <button className="ui huge primary button" type='submit' id='submit' value='Login'>
                         Login
                     </button>
-
                 </form>
-
             </div>
         )
     }

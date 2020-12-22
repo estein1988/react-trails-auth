@@ -7,7 +7,6 @@ import './App.css';
 
 const loginURL = 'http://localhost:8000/login/'
 const profileURL = 'http://localhost:8000/profile/'
-const trailsURL = 'http://localhost:8000/trails'
 
 class App extends Component {
   
@@ -18,20 +17,6 @@ class App extends Component {
 
   fetchModels = () => {
     this.profileFetch()
-    this.trailsFetch()
-  }
-
-  trailsFetch = () => {
-    fetch(trailsURL, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.token}`
-      }
-    })
-    .then(response => response.json())
-    .then(result => {
-      this.setState({allTrails: result})
-    })
   }
   
   profileFetch = () => {
@@ -47,12 +32,6 @@ class App extends Component {
 
   componentDidMount(){
     if(localStorage.token){
-      this.fetchModels()
-    }
-  }
-
-  componentDidUpdate(){
-    if(localStorage.token && this.state.allTrails.length === 0) {
       this.fetchModels()
     }
   }

@@ -9,6 +9,7 @@ class CardsContainer extends Component {
             trail => <TrailCard
                 key={trail.id}
                 trail={trail}
+                fetchModels={this.props.fetchModels}
             />
         )
 

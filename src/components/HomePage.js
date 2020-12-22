@@ -1,15 +1,18 @@
-import React, {Component} from 'react'
+import React, {useEffect} from 'react'
 import CardsContainer from './CardsContainer'
 
-export default class Home extends Component{
-    render(){
+export default function Home(props){
+
+    useEffect(() => {
+        props.fetchModels()
+    }, [])
+    
         return(
             <div>
             <div>
-                <h1>Welcome {this.props.user.username}!</h1>
+                <h1>Welcome {props.user.username}!</h1>
             </div>
-            <CardsContainer allTrails={this.props.allTrails}/>
+            <CardsContainer fetchModels={props.fetchModels} allTrails={props.allTrails}/>
             </div>
         );
-    }
 }

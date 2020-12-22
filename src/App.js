@@ -7,15 +7,13 @@ import './App.css';
 
 const loginURL = 'http://localhost:8000/login/'
 const profileURL = 'http://localhost:8000/profile/'
-const trailsURL = 'http://localhost:8000/trails/'
-const usersURL = 'http://localhost:8000/users/'
+const trailsURL = 'http://localhost:8000/trails'
 
 class App extends Component {
   
   state = {
     user: {},
-    allTrails: [],
-    allUsers: []
+    allTrails: []
   }
 
   fetchModels = () => {
@@ -88,16 +86,18 @@ class App extends Component {
             allUsers={this.state.allUsers}
             allTrails={this.state.allTrails}
             profileFetch={this.profileFetch}
+            fetchModels={this.fetchModels}
           />
-
           <Route
             path='/login'
-            render={(props) => <Login {...props} login={this.login} /> } />
+            render={(props) => <Login {...props} login={this.login} /> } 
+          />
           <Route render={() => <Redirect to='/' />} />
 
-        </Switch>
 
-        <SignUp />
+        </Switch>
+        <SignUp path='/signup'/>
+
       </div>
     );
   }

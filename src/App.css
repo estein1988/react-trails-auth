@@ -2,3 +2,8 @@
   text-align: center;
 }
 
+.cards-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

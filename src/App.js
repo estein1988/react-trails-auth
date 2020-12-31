@@ -7,16 +7,28 @@ import './App.css';
 
 const loginURL = 'http://localhost:8000/login/'
 const profileURL = 'http://localhost:8000/profile/'
+const trailsURL = 'http://localhost:8000/trails/'
+const reviewsURL = 'http://localhost:8000/reviews/'
+
 
 class App extends Component {
   
   state = {
     user: {},
-    allTrails: []
+    allTrails: [], 
+    allReviews: []
   }
 
+  componentDidMount(){
+    if(localStorage.token){
+      this.fetchModels()
+    }
+  }
+  
   fetchModels = () => {
     this.profileFetch()
+    this.trailsFetch()
+    this.reviewsFetch()
   }
   
   profileFetch = () => {
@@ -30,11 +42,28 @@ class App extends Component {
     .then(result => this.setState({user: result}))
   }
 
-  componentDidMount(){
-    if(localStorage.token){
-      this.fetchModels()
-    }
+  trailsFetch = () => {
+    fetch(trailsURL, {
+      method: 'GET', 
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+      },
+    })
+    .then(response => response.json())
+    .then(result => this.setState({allTrails: result}))
   }
+
+  reviewsFetch = () => {
+    fetch(reviewsURL, {
+      method: 'GET', 
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+      },
+    })
+    .then(response => response.json())
+    .then(result => this.setState({allReviews: result}))
+  }
+
 
   login = (user) => {
     return fetch(loginURL, {
@@ -62,8 +91,8 @@ class App extends Component {
           <PrivateRoute
             exact path='/'
             user={this.state.user}
-            allUsers={this.state.allUsers}
             allTrails={this.state.allTrails}
+            allReviews={this.state.allReviews}
             profileFetch={this.profileFetch}
             fetchModels={this.fetchModels}
           />

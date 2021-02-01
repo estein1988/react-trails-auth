@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PrivateRoute from './components/PrivateRoute'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
@@ -10,28 +10,25 @@ const profileURL = 'http://localhost:8000/profile/'
 const trailsURL = 'http://localhost:8000/trails/'
 const reviewsURL = 'http://localhost:8000/reviews/'
 
+function App() {
 
-class App extends Component {
-  
-  state = {
-    user: {},
-    allTrails: [], 
-    allReviews: []
-  }
+  const [user, setUser] = useState({})
+  const [allTrails, setAllTrails] = useState([])
+  const [allReviews, setAllReviews] = useState([])
 
-  componentDidMount(){
+  useEffect(() => {
     if(localStorage.token){
-      this.fetchModels()
+      fetchModels()
     }
+  }, [])
+  
+  const fetchModels = () => {
+    profileFetch()
+    trailsFetch()
+    reviewsFetch()
   }
   
-  fetchModels = () => {
-    this.profileFetch()
-    this.trailsFetch()
-    this.reviewsFetch()
-  }
-  
-  profileFetch = () => {
+  const profileFetch = () => {
     fetch(profileURL, {
       method: 'GET', 
       headers: {
@@ -39,10 +36,10 @@ class App extends Component {
       },
     })
     .then(response => response.json())
-    .then(result => this.setState({user: result}))
+    .then(result => setUser(result))
   }
 
-  trailsFetch = () => {
+  const trailsFetch = () => {
     fetch(trailsURL, {
       method: 'GET', 
       headers: {
@@ -50,10 +47,10 @@ class App extends Component {
       },
     })
     .then(response => response.json())
-    .then(result => this.setState({allTrails: result}))
+    .then(result => setAllTrails(result))
   }
 
-  reviewsFetch = () => {
+  const reviewsFetch = () => {
     fetch(reviewsURL, {
       method: 'GET', 
       headers: {
@@ -61,11 +58,11 @@ class App extends Component {
       },
     })
     .then(response => response.json())
-    .then(result => this.setState({allReviews: result}))
+    .then(result => setAllReviews(result))
   }
 
 
-  login = (user) => {
+  const login = (user) => {
     return fetch(loginURL, {
       method: "POST",
       headers: {
@@ -73,7 +70,7 @@ class App extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify( user)
+      body: JSON.stringify(user)
     })
     .then(response => response.json())
     .then(result => {
@@ -82,33 +79,30 @@ class App extends Component {
         : localStorage.setItem('token', result.access)
     })
   }
-  
-  render(){
-    return (
-      <div className="App">
-        <Switch>
 
-          <PrivateRoute
-            exact path='/'
-            user={this.state.user}
-            allTrails={this.state.allTrails}
-            allReviews={this.state.allReviews}
-            profileFetch={this.profileFetch}
-            fetchModels={this.fetchModels}
-          />
-          <Route
-            path='/login'
-            render={(props) => <Login {...props} login={this.login} /> } 
-          />
-          <Route render={() => <Redirect to='/' />} />
+  return (
+    <div className="App">
+      <Switch>
 
+        <PrivateRoute
+          exact path='/'
+          user={user}
+          allTrails={allTrails}
+          allReviews={allReviews}
+          profileFetch={profileFetch}
+          fetchModels={fetchModels}
+        />
+        <Route
+          path='/login'
+          render={(props) => <Login {...props} login={login} /> } 
+        />
+        <Route render={() => <Redirect to='/' />} />
 
-        </Switch>
-        <SignUp path='/signup'/>
+      </Switch>
+      <SignUp path='/signup'/>
 
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;

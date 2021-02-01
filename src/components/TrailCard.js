@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
     });
 
-export default function TrailCard( {trail} ) {
+export default function TrailCard({trail}) {
     const classes = useStyles();
 
     return (
@@ -50,4 +50,4 @@ export default function TrailCard( {trail} ) {
         </CardActions>
         </Card>
     );
-    }
+}

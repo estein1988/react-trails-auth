@@ -1,24 +1,22 @@
-import React, {Component} from 'react'
+import React from 'react'
 import TrailCard from './TrailCard'
 
-class CardsContainer extends Component {
+function CardsContainer({allTrails}) {
 
-    render(){
-        const renderTrails = () => this.props.allTrails.map(
-            trail => <TrailCard
-                key={trail.id}
-                trail={trail}
-            />
-        )
+    const renderTrails = () => allTrails.map(
+        trail => <TrailCard
+            key={trail.id}
+            trail={trail}
+        />
+    )
 
-        return (
-            <div className="sixteen wide column">
-                <div className="cards-container">
-                    {renderTrails()}
-                </div>
+    return (
+        <div className="sixteen wide column">
+            <div className="cards-container">
+                {renderTrails()}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default CardsContainer;

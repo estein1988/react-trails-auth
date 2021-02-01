@@ -10,7 +10,7 @@ export default function HomePage(props) {
     return(
         <div>
             <h1>Welcome {props.user.username}</h1>
-            <CardsContainer allTrails={props.allTrails} allReviews={props.allReviews}/>
+            <CardsContainer allTrails={props.allTrails} />
         </div>
     )
 }

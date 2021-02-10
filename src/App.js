@@ -3,6 +3,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import {Redirect, Route, Switch} from 'react-router-dom'
+import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
 const loginURL = 'http://localhost:8000/login/'
@@ -11,7 +12,6 @@ const trailsURL = 'http://localhost:8000/trails/'
 const reviewsURL = 'http://localhost:8000/reviews/'
 
 function App() {
-
   const [user, setUser] = useState({})
   const [allTrails, setAllTrails] = useState([])
   const [allReviews, setAllReviews] = useState([])
@@ -61,6 +61,19 @@ function App() {
     .then(result => setAllReviews(result))
   }
 
+  const leaveReview = (trail, user, rating, review) => {
+    fetch(reviewsURL, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {trail: trail, user: user, rating: rating, review: review}
+      )
+    })
+  }
 
   const login = (user) => {
     return fetch(loginURL, {
@@ -90,6 +103,7 @@ function App() {
           allTrails={allTrails}
           allReviews={allReviews}
           profileFetch={profileFetch}
+          leaveReview={leaveReview}
           fetchModels={fetchModels}
         />
         <Route

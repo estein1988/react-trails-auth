@@ -3,7 +3,7 @@ import HomePage from './HomePage'
 import {Route, Redirect} from 'react-router-dom'
 
 export default function PrivateRoute(props){
-    const {user, profileFetch, allTrails, allReviews, fetchModels} = props
+    const {user, profileFetch, allTrails, allReviews, leaveReview, fetchModels} = props
 
     return <Route {...props} render={(routerProps) => {
         return localStorage.token
@@ -13,6 +13,7 @@ export default function PrivateRoute(props){
             profileFetch={profileFetch}
             allTrails={allTrails}
             allReviews={allReviews}
+            leaveReview={leaveReview}
             fetchModels={fetchModels}
         />
         : <Redirect to='/login' />

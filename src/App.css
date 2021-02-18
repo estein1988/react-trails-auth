@@ -8,3 +8,31 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+#remove-review {
+  margin: 1rem;
+}
+
+#review-section {
+  border: 1px black solid;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  margin: 1rem;
+  padding: 0.5rem;
+}
+
+#review-text{
+  font-size: 15px;
+}
+
+#review-parent{
+  display: flex;
+  justify-content: center;
+}
+
+#edit-review {
+  margin: 1rem;
+  padding: 1rem;
+  border: black 1px solid;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

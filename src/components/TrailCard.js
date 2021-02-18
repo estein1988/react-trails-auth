@@ -7,22 +7,23 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import LeaveReview from './LeaveReview'
+import Reviews from './Reviews';
+import LeaveReview from './LeaveReview';
 
 const useStyles = makeStyles({
     root: {
         alignItems: 'center',
         maxWidth: 700,
         maxHeight: 900,
-        padding: '2rem',
-        margin: '2 rem'
+        padding: '1rem',
+        margin: '2rem'
     },
     media: {
         height: 260,
     },
     });
 
-export default function TrailCard({trail, user, leaveReview, fetchModels}) {
+export default function TrailCard({trail, user, reviews, leaveReview, deleteReview, editReview, fetchModels}) {
     const classes = useStyles();
 
     return (
@@ -38,15 +39,15 @@ export default function TrailCard({trail, user, leaveReview, fetchModels}) {
                 {trail.name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-                {trail.description}<br></br>
-                <h3>
-                    {trail.reviews.length > 0
-                        ? trail.reviews.map(review =>{
-                            return <div>{review.rating.concat(' Stars: ')}<spanc>&nbsp;</spanc>{review.review}</div>
-                        })    
-                        : 'No reviews for this trail have been submitted'
-                    }
-                </h3>
+                {trail.description}<br></br><br></br>
+                <Reviews
+                    trail={trail}
+                    user={user}
+                    reviews={reviews}
+                    fetchModels={fetchModels}
+                    deleteReview={deleteReview}
+                    editReview={editReview}
+                />
             </Typography>
             </CardContent>
         </CardActionArea>

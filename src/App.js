@@ -75,6 +75,39 @@ function App() {
     })
   }
 
+  const deleteReview = (review, user) => {
+    const newReviews = allReviews.filter(allReview => allReview !== review)
+    setAllReviews(newReviews)
+    review.user.id !== user.id
+    ? alert("Not your review to delete")
+    : fetch(`http://localhost:8000/reviews/${review.id}`, {
+      method: "DELETE",
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+  }
+
+  const editReview = (review, trail, user, rating, comment) => {
+    const newReviews = allReviews.filter(allReview => allReview !== review)
+    setAllReviews(newReviews)
+    review.user.id !== user.id
+    ? alert("Not your review to edit")
+    : fetch(`http://localhost:8000/reviews/${review.id}/`, {
+        method: "PATCH",
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+          {rating: rating, review: comment}
+        )
+      })
+  }
+
   const login = (user) => {
     return fetch(loginURL, {
       method: "POST",
@@ -104,6 +137,8 @@ function App() {
           allReviews={allReviews}
           profileFetch={profileFetch}
           leaveReview={leaveReview}
+          deleteReview={deleteReview}
+          editReview={editReview}
           fetchModels={fetchModels}
         />
         <Route
@@ -113,7 +148,7 @@ function App() {
         <Route render={() => <Redirect to='/' />} />
 
       </Switch>
-      <SignUp path='/signup'/>
+      {/* <SignUp path='/signup'/> */}
 
     </div>
   );

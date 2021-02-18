@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import CardsContainer from './CardsContainer'
 
-export default function HomePage({user, allTrails, leaveReview, fetchModels}) {
+export default function HomePage({user, allTrails, leaveReview, deleteReview, editReview, fetchModels}) {
 
     useEffect(() => {
         fetchModels()
@@ -14,6 +14,8 @@ export default function HomePage({user, allTrails, leaveReview, fetchModels}) {
                 allTrails={allTrails}
                 user={user}
                 leaveReview={leaveReview}
+                deleteReview={deleteReview}
+                editReview={editReview}
                 fetchModels={fetchModels}
             />
         </div>
